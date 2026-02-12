@@ -4,6 +4,10 @@
   "description": "Boost selected prompts using GitHub Copilot with popular prompt engineering techniques",
   "version": "0.0.1",
   "publisher": "tainn03",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tainn03/prompt-booster.git"
+  },
   "engines": {
     "vscode": "^1.109.0"
   },
@@ -63,13 +67,14 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.109.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
-    "typescript-eslint": "^8.54.0",
+    "@types/vscode": "^1.109.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
     "eslint": "^9.39.2",
     "typescript": "^5.9.3",
-    "@vscode/test-cli": "^0.0.12",
-    "@vscode/test-electron": "^2.5.2"
+    "typescript-eslint": "^8.54.0",
+    "vsce": "^2.15.0"
   }
 }
