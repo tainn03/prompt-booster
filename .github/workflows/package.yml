@@ -13,100 +13,82 @@ on:
   pull_request:
     branches:
       - main
-      - master
     paths:
       - 'src/**'
       - 'package.json'
       - 'tsconfig.json'
   workflow_dispatch:
-    inputs:
-      publish:
-        description: 'Publish to marketplace after packaging'
-        required: false
-        default: 'false'
 
 # Environment variables
 env:
-  NODE_VERSION: '18'
-  NPM_CACHE_DIR: '.npm'
+  NODE_VERSION: '20'
+  NODE_OPTIONS: '--experimental-global-webcrypto'
 
 jobs:
-  # Primary packaging job
   package:
     name: Package Extension
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-      fail-fast: false
+    runs-on: ubuntu-latest
+    outputs:
+      vsix-path: ${{ steps.package.outputs.path }}
 
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # Step 2: Setup Node.js environment
-      - name: Setup Node.js (${{ env.NODE_VERSION }})
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
 
-      # Step 3: Install dependencies
       - name: Install Dependencies
         run: npm ci
-        continue-on-error: false
 
-      # Step 4: Run linter
       - name: Lint Code
         run: npm run lint
         continue-on-error: true
-        if: always()
 
-      # Step 5: Compile TypeScript
       - name: Compile TypeScript
         run: npm run compile
-        continue-on-error: false
 
-      # Step 6: Run Tests
       - name: Run Tests
         run: npm run test
         continue-on-error: true
-        if: always()
 
-      # Step 7: Package Extension
       - name: Package Extension
-        run: npm run package
-        continue-on-error: false
-
-      # Step 8: Find and list package artifacts
-      - name: List Packaged Files
+        id: package
         run: |
-          echo "=== Packaged Files ==="
-          find . -name "*.vsix" -type f
-        shell: bash
+          npm run package
+          VSIX_FILE=$(find . -maxdepth 1 -name "*.vsix" -type f)
+          echo "path=$VSIX_FILE" >> $GITHUB_OUTPUT
+          echo "📦 Packaged: $VSIX_FILE"
 
-      # Step 9: Upload artifacts
-      - name: Upload Package Artifacts
+      - name: Check Package Integrity
+        run: |
+          VSIX_FILE=$(find . -maxdepth 1 -name "*.vsix" -type f)
+          if [ -f "$VSIX_FILE" ]; then
+            echo "✅ Package created successfully"
+            ls -lh "$VSIX_FILE"
+          else
+            echo "❌ Package file not found"
+            exit 1
+          fi
+
+      - name: Upload Artifact
         uses: actions/upload-artifact@v4
-        if: success()
         with:
-          name: prompt-booster-${{ matrix.os }}-${{ github.ref_name }}
+          name: prompt-booster-vsix
           path: '*.vsix'
           retention-days: 30
-          if-no-files-found: warn
 
-      # Step 10: Create Release on Success (main branch only)
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         if: |
           success() &&
           github.event_name == 'push' &&
-          github.ref == 'refs/heads/main' &&
-          matrix.os == 'ubuntu-latest'
+          github.ref == 'refs/heads/main'
         with:
           files: '*.vsix'
           draft: false
@@ -116,54 +98,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  # Validation job to ensure quality
-  validate:
-    name: Validate Quality
-    runs-on: ubuntu-latest
-    needs: package
-    if: always()
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Check package.json Integrity
-        run: npm test
-        continue-on-error: true
-
-      - name: Report Status
-        run: |
-          echo "✅ Packaging workflow completed"
-          echo "Artifacts available in Actions tab"
-        if: success()
-
-# Notifications
-  notify:
-    name: Notify Status
-    runs-on: ubuntu-latest
-    needs: [package, validate]
-    if: always()
-
-    steps:
-      - name: Job Summary
-        run: |
-          echo "## 🎉 Extension Packaging Report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Workflow:** ${{ github.workflow }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Status:** ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Author:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📦 Artifacts" >> $GITHUB_STEP_SUMMARY
-          echo "- Check the Actions artifacts for packaged .vsix files" >> $GITHUB_STEP_SUMMARY
-          echo "- Files are retained for 30 days" >> $GITHUB_STEP_SUMMARY
