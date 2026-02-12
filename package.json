@@ -1,0 +1,75 @@
+{
+  "name": "prompt-booster",
+  "displayName": "Prompt Booster",
+  "description": "Boost selected prompts using GitHub Copilot with popular prompt engineering techniques",
+  "version": "0.0.1",
+  "publisher": "tainn03",
+  "engines": {
+    "vscode": "^1.109.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "prompt-booster.boostPrompt",
+        "title": "Boost Prompt with Copilot",
+        "category": "Prompt Booster"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "prompt-booster.boostPrompt",
+          "when": "editorHasSelection",
+          "group": "1_promptbooster@1"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "prompt-booster.boostPrompt",
+        "key": "ctrl+alt+b",
+        "mac": "cmd+alt+b",
+        "when": "editorTextFocus && editorHasSelection"
+      }
+    ],
+    "configuration": {
+      "title": "Prompt Booster",
+      "properties": {
+        "promptBooster.modelFamily": {
+          "type": "string",
+          "default": "gpt-4o",
+          "description": "The Copilot model family to use (e.g., gpt-4o, gpt-4, gpt-3.5-turbo)."
+        },
+        "promptBooster.streamResponse": {
+          "type": "boolean",
+          "default": true,
+          "description": "Stream the boosted prompt incrementally into the editor."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "package": "vsce package",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.109.0",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "typescript-eslint": "^8.54.0",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2"
+  }
+}
