@@ -1,13 +1,6 @@
-# Prompt Booster
-
-A powerful VS Code extension that enhances your prompts using GitHub Copilot and 9 advanced prompt engineering techniques. Select any prompt text, and instantly receive a production-grade, optimized version that combines all proven prompting strategies.
-
-## Features
-
-- **One-Click Prompt Enhancement** — Select text and press `Ctrl+Alt+B` (or `Cmd+Alt+B` on Mac) to boost your prompt
-- **Streaming Feedback** — Watch improvements appear in real-time as the model generates them
-- **Context Menu Integration** — Right-click on selected text to boost
-- **Customizable via Settings** — Choose your Copilot model and enable/disable streaming
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d0030322-28c4-4a12-aa67-617edf60c0d3" alt="Content Booster Use Cases" style="max-width: 100%; height: auto;" />
+</p>
 
 ## Requirements
 
@@ -18,7 +11,7 @@ A powerful VS Code extension that enhances your prompts using GitHub Copilot and
 ## How to Install
 
 #### Step 1: Get the .vsix File
-- Download the latest `.vsix` from the [releases page](https://github.com/tainn03/prompt-booster/releases)
+- Download the latest `.vsix` from [prompt-booster-1.0.0.vsix](https://github.com/tainn03/prompt-booster/blob/main/prompt-booster-1.0.0.vsix)
 
 #### Step 2: Install in VS Code
 
