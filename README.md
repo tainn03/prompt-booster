@@ -18,7 +18,7 @@ A powerful VS Code extension that enhances your prompts using GitHub Copilot and
 ## How to Install
 
 #### Step 1: Get the .vsix File
-- Download the latest `.vsix` file from [prompt-booster-0.0.1.vsix](https://github.com/tainn03/prompt-booster/blob/main/prompt-booster-0.0.1.vsix)
+- Download the latest `.vsix` from the [releases page](https://github.com/tainn03/prompt-booster/releases)
 
 #### Step 2: Install in VS Code
 
@@ -34,16 +34,24 @@ A powerful VS Code extension that enhances your prompts using GitHub Copilot and
 
 ## How to Use
 
-1. Open any file in VS Code (supports: .txt, .md, .js, .py, any text file)
-2. Select the prompt text you want to improve
-3. Use one of these methods to activate:
-   - **Keyboard shortcut**: Press `Ctrl+Alt+B` (Windows/Linux) or `Cmd+Alt+B` (macOS)
-   - **Context menu**: Right-click on selected text → **"Boost Prompt with Copilot"**
-   - **Command palette**: Press `Ctrl+Shift+P` / `Cmd+Shift+P` → Search for **"Boost Prompt with Copilot"**
+Select any text in the editor (or terminal) and press the keybinding — or right-click and pick a command. If no text is selected, the clipboard content is offered as fallback.
 
-4. The selected text is replaced with the enhanced version
-5. The improved prompt appears in real-time (if streaming is enabled)
-6. Review the result and iterate if needed
+| Key | Command | Output | When to Use |
+|---|---|---|---|
+| `⌘⌥P` | **Boost: Prompt** | Replace selection | Apply 9 prompt engineering techniques (CoT, ToT, Few-Shot, ReAct, etc.) to any AI prompt |
+| `⌘⌥S` | **Boost: Skill** | Replace selection | Sharpen skill/agent definitions — triggers, boundaries, error handling, constraints |
+| `⌘⌥A` | **Boost: Agent** | Replace selection | Optimize agent configs — capabilities, tools, autonomy gates, interaction protocols |
+| `⌘⌥I` | **Boost: Instructions** | Replace selection | Crystal-clear SOPs, runbooks, how-to guides — fill gaps, add troubleshooting |
+| `⌘⌥B` | **Boost: Content** | Replace selection | Expand and polish any text — add detail, improve structure, refine language |
+| `⌘⌥E` | **Extract Key Insights** | New markdown doc | Distill long text into structured insights. 8 modes via Quick Pick: |
+
+### Input Sources
+
+All commands accept text from:
+1. **Editor selection** — select text, trigger command (priority)
+2. **Terminal** — select text in terminal, press keybinding
+3. **Clipboard** — no selection detected? A notification offers to use clipboard content
+4. **Command Palette** — `Ctrl+Shift+P` → type command name
 
 ## Extension Settings
 
@@ -54,5 +62,5 @@ This extension contributes the following settings:
   - Falls back to any available Copilot model if your preferred family is unavailable
 
 - `promptBooster.streamResponse` (boolean, default: `true`)
-  - When enabled, the improved prompt appears in the editor as it's being generated
+  - When enabled, the boosted result appears in the editor as it's being generated
   - When disabled, the full response is collected before inserting

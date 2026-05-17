@@ -1,8 +1,8 @@
 {
   "name": "prompt-booster",
   "displayName": "Prompt Booster",
-  "description": "Boost selected prompts using GitHub Copilot with popular prompt engineering techniques",
-  "version": "0.0.1",
+  "description": "Boost selected text — prompts, skills, agents, instructions, and general content — using GitHub Copilot",
+  "version": "1.0.0",
   "publisher": "tainn03",
   "repository": {
     "type": "git",
@@ -19,26 +19,106 @@
   "contributes": {
     "commands": [
       {
+        "command": "prompt-booster.extractKeyInsights",
+        "title": "Extract Key Insights",
+        "category": "Prompt Booster"
+      },
+      {
         "command": "prompt-booster.boostPrompt",
-        "title": "Boost Prompt with Copilot",
+        "title": "Boost: Prompt",
+        "category": "Prompt Booster"
+      },
+      {
+        "command": "prompt-booster.boostSkill",
+        "title": "Boost: Skill",
+        "category": "Prompt Booster"
+      },
+      {
+        "command": "prompt-booster.boostAgent",
+        "title": "Boost: Agent",
+        "category": "Prompt Booster"
+      },
+      {
+        "command": "prompt-booster.boostInstructions",
+        "title": "Boost: Instructions",
+        "category": "Prompt Booster"
+      },
+      {
+        "command": "prompt-booster.boostContent",
+        "title": "Boost: Content",
         "category": "Prompt Booster"
       }
     ],
     "menus": {
       "editor/context": [
         {
-          "command": "prompt-booster.boostPrompt",
+          "command": "prompt-booster.extractKeyInsights",
           "when": "editorHasSelection",
           "group": "1_promptbooster@1"
+        },
+        {
+          "command": "prompt-booster.boostPrompt",
+          "when": "editorHasSelection",
+          "group": "1_promptbooster@2"
+        },
+        {
+          "command": "prompt-booster.boostSkill",
+          "when": "editorHasSelection",
+          "group": "1_promptbooster@3"
+        },
+        {
+          "command": "prompt-booster.boostAgent",
+          "when": "editorHasSelection",
+          "group": "1_promptbooster@4"
+        },
+        {
+          "command": "prompt-booster.boostInstructions",
+          "when": "editorHasSelection",
+          "group": "1_promptbooster@5"
+        },
+        {
+          "command": "prompt-booster.boostContent",
+          "when": "editorHasSelection",
+          "group": "1_promptbooster@6"
         }
       ]
     },
     "keybindings": [
       {
+        "command": "prompt-booster.extractKeyInsights",
+        "key": "ctrl+alt+e",
+        "mac": "cmd+alt+e",
+        "when": "editorHasSelection || terminalFocus"
+      },
+      {
         "command": "prompt-booster.boostPrompt",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p",
+        "when": "editorHasSelection || terminalFocus"
+      },
+      {
+        "command": "prompt-booster.boostSkill",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorHasSelection || terminalFocus"
+      },
+      {
+        "command": "prompt-booster.boostAgent",
+        "key": "ctrl+alt+a",
+        "mac": "cmd+alt+a",
+        "when": "editorHasSelection || terminalFocus"
+      },
+      {
+        "command": "prompt-booster.boostInstructions",
+        "key": "ctrl+alt+i",
+        "mac": "cmd+alt+i",
+        "when": "editorHasSelection || terminalFocus"
+      },
+      {
+        "command": "prompt-booster.boostContent",
         "key": "ctrl+alt+b",
         "mac": "cmd+alt+b",
-        "when": "editorTextFocus && editorHasSelection"
+        "when": "editorHasSelection || terminalFocus"
       }
     ],
     "configuration": {
@@ -47,12 +127,12 @@
         "promptBooster.modelFamily": {
           "type": "string",
           "default": "gpt-4o",
-          "description": "The Copilot model family to use (e.g., gpt-4o, gpt-4, gpt-3.5-turbo)."
+          "description": "The Copilot model family to use (e.g., gpt-4o, gpt-5-mini)."
         },
         "promptBooster.streamResponse": {
           "type": "boolean",
           "default": true,
-          "description": "Stream the boosted prompt incrementally into the editor."
+          "description": "Stream the boosted result incrementally into the editor."
         }
       }
     }
