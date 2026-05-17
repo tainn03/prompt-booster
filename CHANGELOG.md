@@ -2,7 +2,37 @@
 
 All notable changes to the "prompt-booster" extension will be documented in this file.
 
-## [0.0.1] - 2026-02-12
+## [1.0.0] - 2026-05-17
+
+### Added
+- **4 new Boost commands** with dedicated keybindings:
+  - `Ctrl+Alt+P` / `Cmd+Alt+P` — Boost: Prompt (9 techniques, same as v0.0.1)
+  - `Ctrl+Alt+S` / `Cmd+Alt+S` — Boost: Skill (optimize skill/agent definitions)
+  - `Ctrl+Alt+A` / `Cmd+Alt+A` — Boost: Agent (optimize agent configurations)
+  - `Ctrl+Alt+I` / `Cmd+Alt+I` — Boost: Instructions (clarify SOPs, runbooks)
+  - `Ctrl+Alt+B` / `Cmd+Alt+B` — Boost: Content (expand and rewrite any text)
+- **Extract Key Insights** command (`Ctrl+Alt+E` / `Cmd+Alt+E`) — distill long text into structured markdown with 8 modes via Quick Pick:
+  - Reorganize & Deduplicate
+  - Smart Default
+  - Errors & Issues
+  - Action Items & Decisions
+  - Timeline / Chronological
+  - Root Cause Analysis
+  - Executive Summary
+  - Custom Focus
+- **Clipboard fallback** — when no editor selection, reads clipboard and shows a confirmation notification with text preview
+- **Terminal support** — keybindings now work when terminal has focus
+- **Copilot Memories integration** — Extract command optionally loads 3-layer memory context (user/repo/session) for domain-aware extraction
+- All 6 commands available in right-click context menu and Command Palette
+- `USECASE.md` — comprehensive use case documentation
+
+### Changed
+- `Ctrl+Alt+B` now triggers Boost: Content (was the old single boost command)
+- Each command has its own SYSTEM_PROMPT tailored to the content type
+- Editor selection is priority input; clipboard is fallback for all commands
+
+### Fixed
+- Input source expanded beyond editor selection — works from terminal and clipboard too
 
 ### Added
 - Single powerful command: "Boost Prompt with Copilot" that combines all 9 prompt engineering techniques
